@@ -1,24 +1,39 @@
-// components/SignUp.js
 import React, { useState } from 'react';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
-  const [name, setName] = useState('');
+  const [username, setuserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
+  const [success, setSuccess] = useState('');
+const navigate=useNavigate()
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your sign-up logic here
-    if (name === '' || email === '' || password === '') {
+    if (username === '' || email === '' || password === '') {
       setError('Please fill in all fields.');
       return;
     }
     setError('');
-    // Here you would typically handle the sign-up logic (e.g., send a request to your server)
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    
+    try {
+      const response = await axios.post('http://localhost:8001/api/auth/signup', {
+        username,
+        email,
+        password
+      });
+
+      if (response.status === 201) {
+        setSuccess('Sign up successful!');
+        setuserName('');
+        setEmail('');
+        setPassword('');
+       
+      }
+      navigate("/")
+    } catch (err) {
+      setError('An error occurred during sign up. Please try again.');
+    }
   };
 
   return (
@@ -26,14 +41,15 @@ const SignUp = () => {
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-6 text-center">Sign Up</h1>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {success && <p className="text-green-500 text-center mb-4">{success}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700">Name</label>
             <input
               type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              id="username"
+              value={username}
+              onChange={(e) => setuserName(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               required
             />

@@ -12,10 +12,7 @@ const AddPatient = ({ availableBeds }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Logic to handle form submission
-    console.log('Patient Name:', patientName);
-    console.log('Disease Name:', diseaseName);
-    console.log('Age:', age);
-    console.log('Selected Bed:', selectedBed);
+  
     
     // Reset form fields after submission
     setPatientName('');
