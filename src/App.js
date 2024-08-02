@@ -11,6 +11,9 @@ import Footer from './Components/Footer.jsx';
 import Login from './Auth/Login.jsx';
 import SignUp from './Auth/Signup.jsx';
 import Notfound from './Components/Notfound.jsx';
+import Addbeds from './AddingData/Addbeds.jsx';
+import Addrooms from './AddingData/Addrooms.jsx';
+import Addpatient from './AddingData/Addpatient.jsx';
 function App() {
   return (
     <Router>
@@ -24,6 +27,9 @@ function App() {
       <Route path="/patient-management" element={<PatientManagement />} />
       <Route path="/room-management" element={<RoomManagement />} />
       <Route path="*" element={<Notfound />} />
+      <Route path='/addbeds' element={<Addbeds/>}/>
+      <Route path='/addroom' element={<Addrooms/>}/>
+      <Route path='/addpatient' element={<Addpatient/>}/>
     </Routes>
     <Footer/>
   </Router>
