@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react'
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 const RoomManagement = () => {
   return (
     <div className='min-h-[80vh]'>
@@ -10,8 +10,9 @@ const RoomManagement = () => {
         <p>Rooms which are oprational :</p>
     <p>rooms which are non oprational :</p>
         <button className='w-[70%] gap-4 flex flex-row bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400'>
-            Add a new Patient 
-           <Plus/>
+<Link to="/addroom">
+Add a new room
+</Link>           <Plus/>
             </button>
     </div></center>
     <div >
