@@ -11,9 +11,7 @@ const AddRooms = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Logic to handle form submission
-    console.log('Room Name:', roomName);
-    console.log('Number of Beds:', numberOfBeds);
-    console.log('Floor Number:', floorNumber);
+   
     
     // Reset form fields after submission
     setRoomName('');

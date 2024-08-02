@@ -1,20 +1,40 @@
-// components/Login.js
 import React, { useState } from 'react';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
+  const [token, setToken] = useState('');
+const navigate=useNavigate()
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username === '' || password === '') {
+    if (email === '' || password === '') {
       setError('Please fill in all fields.');
       return;
     }
     setError('');
-   
-    
+
+    try {
+      // Make the API request
+      const response = await axios.post('http://localhost:8001/api/auth/login', {
+        email,
+        password,
+      }, {
+        withCredentials: true, // Ensure cookies are sent with the request
+      });
+
+      // Handle successful login
+      const { token } = response.data;
+      setToken(token);
+      // Optionally, store the token in localStorage or context
+      localStorage.setItem('authToken', token);
+      navigate("/")
+    } catch (err) {
+      // Handle errors
+      setError('Invalid email or password.');
+      console.error('Login error:', err);
+    }
   };
 
   return (
@@ -24,12 +44,12 @@ const Login = () => {
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700">Username</label>
+            <label htmlFor="email" className="block text-gray-700">Email</label>
             <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               required
             />
