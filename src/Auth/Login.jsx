@@ -1,9 +1,8 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/userslice';
+import { login } from '../redux/inputSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -31,11 +30,11 @@ const Login = () => {
 
       // Handle successful login
       const { token, user } = response.data; // Assume the response contains both token and user information
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('accessToken', token);
       
       // Dispatch user information to Redux store
-      dispatch(login({ accessToken: token, user }));
-
+      dispatch(login({ user, accessToken: token }));
+      
       // Redirect to home or any other page
       navigate("/");
     } catch (err) {

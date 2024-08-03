@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi'; 
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux'; 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const toggleSidebar = () => {
     
     setIsOpen(!isOpen)};
@@ -30,7 +31,7 @@ isOpen === true ?
           <li className="p-4 hover:bg-gray-700"><Link to="/bed-management">bed</Link></li>
           <li className="p-4 hover:bg-gray-700"><Link to="/patient-management">patient</Link></li>
         </ul>
-         </nav>
+      </nav>
     </div>):(
     <>
      <button onClick={toggleSidebar}  className="text-2xl">

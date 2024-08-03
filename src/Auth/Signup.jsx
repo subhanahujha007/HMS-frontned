@@ -1,9 +1,8 @@
-// src/components/SignUp.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/userslice';
+import { login } from '../redux/inputSlice'; // Import the login action
 
 const SignUp = () => {
   const [username, setuserName] = useState('');
@@ -35,8 +34,8 @@ const SignUp = () => {
         localStorage.setItem('authToken', token); // Store the token in localStorage
 
         // Dispatch user information to Redux store
-        dispatch(login({ accessToken: token, user }));
-
+        dispatch(login({ user, accessToken: token }));
+        
         // Clear form fields
         setuserName('');
         setEmail('');
