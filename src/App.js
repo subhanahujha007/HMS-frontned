@@ -15,6 +15,8 @@ import Addbeds from './AddingData/Addbeds.jsx';
 import EditRoom from './Edit/Editroom.jsx';
 import Addrooms from './AddingData/Addrooms.jsx';
 import Addpatient from './AddingData/Addpatient.jsx';
+import EditBed from './Edit/Editbeds.jsx';
+import EditPatient from './Edit/Editpatient.jsx';
 function App() {
   return (
     <Router>
@@ -24,6 +26,8 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>} />
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<SignUp/>}/>
+      <Route path="/editbed/:id" element={<EditBed/>}/>
+      <Route path="/edit-patient/:id" element={<EditPatient/>}/>
       <Route path="/editroom/:id" element={<EditRoom />} />
       <Route path="/bed-management" element={<BedManagement />} />
       <Route path="/patient-management" element={<PatientManagement />} />
