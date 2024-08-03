@@ -1,25 +1,34 @@
-// src/components/Navbar.js
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/userslice.js';
+import { logout } from '../redux/inputSlice'; // Correct import path
 import Sidebar from './Sidebar';
+import axios from 'axios';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
 
-  const handleLogout = () => {
-    // Clear tokens from localStorage
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+  const handleLogout = async () => {
+    try {
+      
+      // Make the API request to clear cookies
+      await axios.post('http://localhost:8001/api/auth/logout', {}, {
+        withCredentials: true, // Ensure cookies are sent with the request
+      });
 
-    // Dispatch logout action to Redux store
-    dispatch(logout());
+      // Clear tokens from localStorage
+      localStorage.removeItem('authToken');
 
-    // Redirect the user after logging out
-    navigate('/');
+      // Dispatch logout action to Redux store
+      dispatch(logout());
+
+      // Redirect the user after logging out
+      navigate('/');
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
   };
 
   return (

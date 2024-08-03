@@ -1,6 +1,5 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Dashboard from './Components/Dashboard';
 import BedManagement from './Components/BedManagement';
 import PatientManagement from './Components/PatientManagement';
 import RoomManagement from './Components/RoomManagement';
@@ -23,16 +22,18 @@ function App() {
       <Navbar/>
     <Routes>
     <Route path="/" element={<Landing/>} /> 
-      <Route path="/dashboard" element={<Dashboard/>} />
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/signup" element={<SignUp/>}/>
+    <Route path="/login" element={<Login/>}/>
+    <Route path="/signup" element={<SignUp/>}/>
+    <Route path="*" element={<Notfound />} />
+    
+     
       <Route path="/editbed/:id" element={<EditBed/>}/>
       <Route path="/edit-patient/:id" element={<EditPatient/>}/>
       <Route path="/editroom/:id" element={<EditRoom />} />
       <Route path="/bed-management" element={<BedManagement />} />
       <Route path="/patient-management" element={<PatientManagement />} />
       <Route path="/room-management" element={<RoomManagement />} />
-      <Route path="*" element={<Notfound />} />
+     
       <Route path='/addbeds' element={<Addbeds/>}/>
       <Route path='/addroom' element={<Addrooms/>}/>
       <Route path='/addpatient' element={<Addpatient/>}/>
