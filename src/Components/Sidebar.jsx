@@ -30,8 +30,7 @@ isOpen === true ?
           <li className="p-4 hover:bg-gray-700"><Link to="/bed-management">bed</Link></li>
           <li className="p-4 hover:bg-gray-700"><Link to="/patient-management">patient</Link></li>
         </ul>
-        <button className='w-[40%] mx-auto bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400'>Log out</button>
-      </nav>
+         </nav>
     </div>):(
     <>
      <button onClick={toggleSidebar}  className="text-2xl">

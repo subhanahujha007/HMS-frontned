@@ -1,8 +1,9 @@
+// src/components/SignUp.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../redux/userslice'; // Adjust the import path based on your directory structure
+import { login } from '../redux/userslice';
 
 const SignUp = () => {
   const [username, setuserName] = useState('');
@@ -20,7 +21,7 @@ const SignUp = () => {
       return;
     }
     setError('');
-    
+
     try {
       const response = await axios.post('http://localhost:8001/api/auth/signup', {
         username,
@@ -34,13 +35,13 @@ const SignUp = () => {
         localStorage.setItem('authToken', token); // Store the token in localStorage
 
         // Dispatch user information to Redux store
-        dispatch(setUser(user));
+        dispatch(login({ accessToken: token, user }));
 
         // Clear form fields
         setuserName('');
         setEmail('');
         setPassword('');
-       
+
         // Redirect to home or any other page
         navigate("/");
       }

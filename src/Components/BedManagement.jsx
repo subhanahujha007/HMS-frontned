@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Plus } from "lucide-react";
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const BedManagement = () => {
   const [beds, setBeds] = useState([]);
   const [error, setError] = useState('');
   const [selectedSort, setSelectedSort] = useState('All'); // Default sort option
+  const navigate = useNavigate(); // For navigation
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const fetchBeds = async () => {
       try {
         const response = await axios.get('http://localhost:8001/api/beds', {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
           withCredentials: true,
@@ -29,7 +31,7 @@ const BedManagement = () => {
     };
 
     fetchBeds();
-  }, []);
+  }, [token]);
 
   const handleSortChange = (event) => {
     setSelectedSort(event.target.value);
@@ -46,24 +48,57 @@ const BedManagement = () => {
     }
   };
 
+  const handleDelete = async (bedId) => {
+    try {
+      await axios.delete(`http://localhost:8001/api/beds/${bedId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+      setBeds(beds.filter(bed => bed._id !== bedId)); // Remove the bed from state
+    } catch (err) {
+      console.error('Delete bed error:', err);
+      setError('An error occurred while deleting the bed.');
+    }
+  };
+
   const renderBeds = (sortedBeds) => {
     return (
       <table className="table-auto border-collapse w-full">
         <thead>
           <tr>
-            <th className="px-4 py-2 border border-gray-300">Bed No.</th>
-            <th className="px-4 py-2 border border-gray-300">Room No.</th>
-            <th className="px-4 py-2 border border-gray-300">Floor No.</th>
-            <th className="px-4 py-2 border border-gray-300">Status</th>
+            <th className="px-4 py-2 border border-gray-300 w-[20%] text-center">Bed No.</th>
+            <th className="px-4 py-2 border border-gray-300 w-[20%] text-center">Room No.</th>
+            <th className="px-4 py-2 border border-gray-300 w-[20%] text-center">Floor No.</th>
+            <th className="px-4 py-2 border border-gray-300 w-[20%] text-center">Status</th>
+            <th className="px-4 py-2 border border-gray-300 w-[20%] text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           {sortedBeds.map((bed) => (
-            <tr key={bed.id} className="border border-gray-300">
-              <td className="px-4 py-2">{bed.bedNumber}</td>
-              <td className="px-4 py-2">{bed.roomNumber}</td>
-              <td className="px-4 py-2">{bed.floorNumber}</td>
-              <td className="px-4 py-2">{bed.status}</td>
+            <tr key={bed._id} className="border border-gray-300">
+              <td className="px-4 py-2 text-center">{bed.bedNumber}</td>
+              <td className="px-4 py-2 text-center">{bed.roomNumber}</td>
+              <td className="px-4 py-2 text-center">{bed.floorNumber}</td>
+              <td className={`px-4 py-2 text-center ${bed.status === 'occupied' ? 'text-red-500' : 'text-green-500'}`}>
+                {bed.status}
+              </td>
+              <td className="px-4 py-2 text-center">
+                <button
+                  className="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600"
+                  onClick={() => navigate(`/editbed/${bed._id}`)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 ml-2"
+                  onClick={() => handleDelete(bed._id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -86,9 +121,9 @@ const BedManagement = () => {
           </button>
         </div>
       </center>
-      <div className="flex gap-2">
-        <label htmlFor="beds">Sort Beds by Preference:</label>
-        <select id="beds" name="beds" value={selectedSort} onChange={handleSortChange}>
+      <div className="flex gap-2 mb-4 justify-center">
+        <label htmlFor="beds" className="mr-2">Sort Beds by Preference:</label>
+        <select id="beds" name="beds" value={selectedSort} onChange={handleSortChange} className="border border-gray-300 p-2 rounded">
           <option value="All">All</option>
           <option value="occupied">Occupied</option>
           <option value="Unoccupied">Unoccupied</option>

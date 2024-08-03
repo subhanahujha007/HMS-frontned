@@ -1,8 +1,9 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../redux/userslice'; // Adjust the import path based on your directory structure
+import { login } from '../redux/userslice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -33,7 +34,7 @@ const Login = () => {
       localStorage.setItem('authToken', token);
       
       // Dispatch user information to Redux store
-      dispatch(setUser(user));
+      dispatch(login({ accessToken: token, user }));
 
       // Redirect to home or any other page
       navigate("/");

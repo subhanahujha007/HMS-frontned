@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 const AddBed = () => {
   const [roomNumber, setRoomNumber] = useState('');
   const [bedNumber, setBedNumber] = useState('');
   const [floorNumber, setFloorNumber] = useState('');
   const [status, setStatus] = useState('available'); // Default status
-
+const navigate=useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,6 +31,7 @@ const AddBed = () => {
         setBedNumber('');
         setFloorNumber('');
         setStatus('available');
+        navigate("/bed-management")
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'An error occurred while adding the bed.';
