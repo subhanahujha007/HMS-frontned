@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userslice'; // Adjust the import path based on your directory structure
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [token, setToken] = useState('');
-const navigate=useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (email === '' || password === '') {
@@ -25,11 +29,14 @@ const navigate=useNavigate()
       });
 
       // Handle successful login
-      const { token } = response.data;
-      setToken(token);
-      // Optionally, store the token in localStorage or context
+      const { token, user } = response.data; // Assume the response contains both token and user information
       localStorage.setItem('authToken', token);
-      navigate("/")
+      
+      // Dispatch user information to Redux store
+      dispatch(setUser(user));
+
+      // Redirect to home or any other page
+      navigate("/");
     } catch (err) {
       // Handle errors
       setError('Invalid email or password.');

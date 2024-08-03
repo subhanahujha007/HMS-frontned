@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userslice'; // Adjust the import path based on your directory structure
+
 const SignUp = () => {
   const [username, setuserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-const navigate=useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (username === '' || email === '' || password === '') {
@@ -24,15 +29,24 @@ const navigate=useNavigate()
       });
 
       if (response.status === 201) {
+        const { token, user } = response.data; // Assume the response contains both token and user information
         setSuccess('Sign up successful!');
+        localStorage.setItem('authToken', token); // Store the token in localStorage
+
+        // Dispatch user information to Redux store
+        dispatch(setUser(user));
+
+        // Clear form fields
         setuserName('');
         setEmail('');
         setPassword('');
        
+        // Redirect to home or any other page
+        navigate("/");
       }
-      navigate("/")
     } catch (err) {
       setError('An error occurred during sign up. Please try again.');
+      console.error('Sign up error:', err);
     }
   };
 
@@ -44,7 +58,7 @@ const navigate=useNavigate()
         {success && <p className="text-green-500 text-center mb-4">{success}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700">Name</label>
+            <label htmlFor="username" className="block text-gray-700">Name</label>
             <input
               type="text"
               id="username"

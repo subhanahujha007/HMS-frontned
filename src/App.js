@@ -12,6 +12,7 @@ import Login from './Auth/Login.jsx';
 import SignUp from './Auth/Signup.jsx';
 import Notfound from './Components/Notfound.jsx';
 import Addbeds from './AddingData/Addbeds.jsx';
+import EditRoom from './Edit/Editroom.jsx';
 import Addrooms from './AddingData/Addrooms.jsx';
 import Addpatient from './AddingData/Addpatient.jsx';
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>} />
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<SignUp/>}/>
+      <Route path="/editroom/:id" element={<EditRoom />} />
       <Route path="/bed-management" element={<BedManagement />} />
       <Route path="/patient-management" element={<PatientManagement />} />
       <Route path="/room-management" element={<RoomManagement />} />
