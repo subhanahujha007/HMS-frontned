@@ -47,9 +47,6 @@ const BedManagement = () => {
         return bedsToSort;
     }
   };
-  const handleEdit = (patientId) => {
-    navigate(`/editroom/${patientId}`); // Navigate to edit patient page
-  };
 
   const handleDelete = async (bedId) => {
     try {
@@ -91,7 +88,7 @@ const BedManagement = () => {
               <td className="px-4 py-2 text-center">
                 <button
                   className="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600"
-                  onClick={() => handleEdit(bed._id)}
+                  onClick={() => navigate(`/editbed/${bed._id}`)}
                 >
                   Edit
                 </button>
