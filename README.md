@@ -1,4 +1,9 @@
 a look at the repo 
+
+link to the video :https://www.youtube.com/watch?v=KCWaCx9pXLA
+
+
+
 <img src='./public/Screenshot (251).png' width='500'>
 
 <img src='./public/Screenshot (252).png' width='500'>
